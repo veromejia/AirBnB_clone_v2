@@ -37,8 +37,10 @@ class FileStorage:
             self.__objects[key] = obj
 
     def delete(self, obj=None):
-            key = "{}.{}".format(type(obj).__name__, obj.id)
-            del self.__objects[key]
+        """Delete the object
+        """
+        key = "{}.{}".format(type(obj).__name__, obj.id)
+        del self.__objects[key]
 
     def save(self):
         """serialize the file path to JSON file path
