@@ -15,4 +15,3 @@ class City(BaseModel):
     __tablename__ = 'cities'
     name = Column(String(128), nullable=False)
     state_id = Column(string(60), nullable=False, ForeignKey('states.id'))
-    
