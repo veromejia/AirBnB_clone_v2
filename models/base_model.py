@@ -6,7 +6,6 @@ from datetime import datetime
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 
-
 Base = declarative_base()
 
 
@@ -34,13 +33,6 @@ class BaseModel:
                     value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
                 if key != "__class__":
                     setattr(self, key, value)
-            if "id" not in kwargs:
-                self.id = str(uuid.uuid4())
-            time_now = datetime.now()
-            if "created_at" not in kwargs:
-                self.created_at = time_now
-            if "updated_at" not in kwargs:
-                self.updated_at = time_now
         else:
             self.id = str(uuid.uuid4())
             self.created_at = self.updated_at = datetime.now()
@@ -52,8 +44,9 @@ class BaseModel:
         """
         my_dict = dict(self.__dict__)
         if '_sa_instance_state' in my_dict.keys():
-            my_dict.pop('_sa_instance_state', None)
-        return "[{}] ({}) {}".format(type(self).__name__, self.id, my_dict)
+            del my_dict['_sa_instance_state']
+        return "[{}] ({}) {}".format(
+            type(self).__name__, self.id, my_dict)
 
     def __repr__(self):
         """return a string representaion
@@ -77,10 +70,10 @@ class BaseModel:
         my_dict["created_at"] = self.created_at.isoformat()
         my_dict["updated_at"] = self.updated_at.isoformat()
         if '_sa_instance_state' in my_dict.keys():
-            my_dict.pop('_sa_instance_state', None)
+            del my_dict['_sa_instance_state']
         return my_dict
 
     def delete(self):
-        """Deletes the current instance from storage
-        by calling method delete"""
+        """Delete current instance from storage
+        """
         models.storage.delete(self)
