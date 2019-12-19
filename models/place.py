@@ -6,11 +6,14 @@ from sqlalchemy.orm import relationship
 from os import getenv
 from sqlalchemy import *
 
-   place_amenity = Table('place_amenity', metadata,
-            Column('place_id', String(60), ForeignKey('places.id'),
-                    primary_key=True, nullable=False)
-            Column('amenity_id', String(60), ForeignKey('amenity_id'),
-                    primary_key=True, nullable=False))
+
+place_amenity = Table('place_amenity', metadata,
+                      Column('place_id', String(60), ForeignKey('places.id'),
+                             primary_key=True, nullable=False),
+                      Column('amenity_id', String(60),
+                             ForeignKey('amenity_id'),
+                             primary_key=True, nullable=False))
+
 
 class Place(BaseModel, Base):
     """This is the class for Place
@@ -56,7 +59,7 @@ class Place(BaseModel, Base):
             return []
 
         @property
-        def amenities(self);
+        def amenities(self):
             return []
 
         @amenities.setter
