@@ -6,6 +6,7 @@ from datetime import datetime
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 
+
 Base = declarative_base()
 
 
@@ -13,8 +14,7 @@ class BaseModel:
     """This class will defines all common attributes/methods
     for other classes
     """
-
-    id = Column(String(60), nullable=False, primary_key=True)
+    id = Column(String(60), unique=True, nullable=False, primary_key=True)
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
 
@@ -50,8 +50,10 @@ class BaseModel:
         Return:
             returns a string of class name, id, and dictionary
         """
-        return "[{}] ({}) {}".format(
-            type(self).__name__, self.id, self.__dict__)
+        my_dict = dict(self.__dict__)
+        if '_sa_instance_state' in my_dict.keys():
+            my_dict.pop('_sa_instance_state', None)
+        return "[{}] ({}) {}".format(type(self).__name__, self.id, my_dict)
 
     def __repr__(self):
         """return a string representaion
@@ -79,6 +81,6 @@ class BaseModel:
         return my_dict
 
     def delete(self):
-        '''Deletes the current instance from storage by calling method
-        delete'''
+        """Deletes the current instance from storage
+        by calling method delete"""
         models.storage.delete(self)
