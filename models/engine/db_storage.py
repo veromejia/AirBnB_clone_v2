@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""This is the database storage"""
+"""DataBase Storage"""
 from models.base_model import BaseModel, Base
 from models.user import User
 from models.state import State
@@ -12,9 +12,8 @@ from sqlalchemy.orm import sessionmaker, scoped_session, relationship
 from os import getenv
 
 
-class DBStorage():
-    """This is the class for DBStorage
-    """
+class DBStorage:
+    """class for DBStorage"""
     __engine = None
     __session = None
 
@@ -27,7 +26,6 @@ class DBStorage():
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}:3306/{}'
                                       .format(user, pwd, host, database),
                                       pool_pre_ping=True)
-        Base.metadata.create_all(self.__engine)
         if getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(self.__engine)
 
