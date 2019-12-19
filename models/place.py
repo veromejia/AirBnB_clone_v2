@@ -7,7 +7,8 @@ from os import getenv
 from sqlalchemy import *
 
 
-place_amenity = Table('place_amenity', metadata,
+metadata = MetaData()
+place_amenity = Table('place_amenity', Base.metadata,
                       Column('place_id', String(60), ForeignKey('places.id'),
                              primary_key=True, nullable=False),
                       Column('amenity_id', String(60),
@@ -32,7 +33,6 @@ class Place(BaseModel, Base):
         place_id: place id
         amenity_id: amenity id
     """
-    metadata = MetaData()
 
     __tablename__ = 'places'
     city_id = Column(String(60), ForeignKey('cities.id'),  nullable=False)
