@@ -4,7 +4,13 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, Integer, String, ForeignKey, Float
 from sqlalchemy.orm import relationship
 from os import getenv
+from sqlalchemy import *
 
+   place_amenity = Table('place_amenity', metadata,
+            Column('place_id', String(60), ForeignKey('places.id'),
+                    primary_key=True, nullable=False)
+            Column('amenity_id', String(60), ForeignKey('amenity_id'),
+                    primary_key=True, nullable=False))
 
 class Place(BaseModel, Base):
     """This is the class for Place
@@ -20,7 +26,10 @@ class Place(BaseModel, Base):
         latitude: latitude in flaot
         longitude: longitude in float
         amenity_ids: list of Amenity ids
+        place_id: place id
+        amenity_id: amenity id
     """
+    metadata = MetaData()
 
     __tablename__ = 'places'
     city_id = Column(String(60), ForeignKey('cities.id'),  nullable=False)
@@ -35,6 +44,9 @@ class Place(BaseModel, Base):
     longitude = Column(Float, nullable=True)
     amenity_ids = []
 
+    amenities = relationship("Amenity",
+                             secondary=place_amenity, viewonly=False)
+
     if getenv("HBNB_TYPE_STORAGE") == "db":
         reviews = relationship('Review', backref='place',
                                cascade='all, delete-orphan')
@@ -42,3 +54,11 @@ class Place(BaseModel, Base):
         @property
         def reviews(self):
             return []
+
+        @property
+        def amenities(self);
+            return []
+
+        @amenities.setter
+        def amenities(self, obj):
+            pass
