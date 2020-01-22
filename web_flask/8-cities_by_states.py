@@ -13,7 +13,7 @@ app = Flask(__name__)
 def cities_by_states():
     """ Display a HTML page: showing the cities by states"""
     return render_template('8-cities_by_states.html',
-                           states=storage.all(State).values())
+                           states=storage.all('State').values())
 
 
 @app.teardown_appcontext
