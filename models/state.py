@@ -24,7 +24,7 @@ class State(BaseModel, Base):
         def cities(self):
             """Getter attribute in case of file storage"""
             new_list = []
-            for city in models.storage.all(City).values:
+            for city in models.storage.all(City).values():
                 if self.id == city.state_id:
                     new_list.append(city)
             return new_list
