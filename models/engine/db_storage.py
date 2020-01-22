@@ -32,12 +32,13 @@ class DBStorage:
     def all(self, cls=None):
         """return a dictionary with all classes objects in database"""
         if cls:
-            new = self.__session.query(cls).all()
+            new = self.__session.query(eval(cls)).all()
         else:
             new = []
             my_class = [State, City, User, Place, Review, Amenity]
             for i in my_class:
-                new += self.__session.query(i)
+                new += self._session.query(i)
+
         my_dict = {}
         for obj in new:
             key = '{}.{}'.format(type(obj).__name__, obj.id)
@@ -66,3 +67,7 @@ class DBStorage:
                                       expire_on_commit=False)
         Session = scoped_session(self.__session)
         self.__session = Session()
+
+    def close(self):
+        """call remove method on the private session attribute"""
+        self.__session.close()
