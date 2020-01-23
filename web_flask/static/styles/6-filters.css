@@ -62,7 +62,7 @@ button:hover {
     height: fit-content;
 }
 .amenities .popover {
-    margin-top: 2px
+    margin-top: 2px;
     margin-left: -5px;
 }
 .locations .popover {
